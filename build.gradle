@@ -28,9 +28,11 @@ dependencies {
 	// SQLite JDBC driver
 	implementation 'org.xerial:sqlite-jdbc:3.44.1.0'
 	
+	// Hibernate Community Dialects for SQLite support
+	implementation 'org.hibernate.orm:hibernate-community-dialects'
+	
 	// Flyway for database migrations
 	implementation 'org.flywaydb:flyway-core'
-	implementation 'org.flywaydb:flyway-database-sqlite'
 	
 	// Markdown processing
 	implementation 'org.commonmark:commonmark:0.21.0'
@@ -43,9 +45,13 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-thymeleaf-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+	// Ensure hibernate-community-dialects is available for tests
+	testImplementation 'org.hibernate.orm:hibernate-community-dialects'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+	// Enable native access for SQLite JDBC driver (required for Java 25)
+	jvmArgs '--enable-native-access=ALL-UNNAMED'
 }

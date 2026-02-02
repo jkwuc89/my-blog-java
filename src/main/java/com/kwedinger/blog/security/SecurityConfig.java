@@ -2,6 +2,7 @@ package com.kwedinger.blog.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,7 +20,7 @@ public class SecurityConfig {
     
     private final CustomAuthenticationProvider customAuthenticationProvider;
     
-    public SecurityConfig(CustomAuthenticationProvider customAuthenticationProvider) {
+    public SecurityConfig(@Lazy CustomAuthenticationProvider customAuthenticationProvider) {
         this.customAuthenticationProvider = customAuthenticationProvider;
     }
     
@@ -54,7 +55,6 @@ public class SecurityConfig {
                 .loginProcessingUrl("/session")
                 .defaultSuccessUrl("/admin", true)
                 .failureUrl("/session/new?error=true")
-                .authenticationManager(authenticationManager())
                 .permitAll()
             )
             .logout(logout -> logout
