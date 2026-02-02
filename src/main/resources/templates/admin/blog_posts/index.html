@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/admin :: layout(~{::content}, 'Blog Posts')}">
+<body>
+    <div th:fragment="content" class="max-w-5xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold">Blog Posts</h1>
+            <a th:href="@{/admin/blog_posts/new}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">New Blog Post</a>
+        </div>
+        
+        <div class="space-y-4">
+            <div th:each="post : ${blogPosts}" class="bg-white border border-gray-200 rounded-lg p-6">
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold mb-2" th:text="${post.title}"></h3>
+                        <p class="text-gray-600 mb-2" th:if="${post.publishedAt != null}"
+                           th:text="${#temporals.format(post.publishedAt, 'MMMM dd, yyyy')}"></p>
+                        <p class="text-gray-600 mb-2" th:if="${post.publishedAt == null}">Draft</p>
+                        <p class="text-sm text-gray-500">Filename: <span th:text="${post.filename}"></span></p>
+                    </div>
+                    <div class="flex gap-2">
+                        <a th:if="${post.publishedAt != null}"
+                           th:href="@{'/blog/' + ${#strings.replace(post.filename, '.md', '')}}"
+                           target="_blank"
+                           class="px-3 py-1 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">View</a>
+                        <a th:href="@{'/admin/blog_posts/' + ${post.id} + '/edit'}"
+                           class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">Edit</a>
+                        <form th:action="@{'/admin/blog_posts/' + ${post.id} + '/delete'}" method="post" style="display: inline;">
+                            <button type="submit" 
+                                    onclick="return confirm('Are you sure?')"
+                                    class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <p th:if="${blogPosts == null || blogPosts.isEmpty()}" class="text-gray-500">
+                No blog posts yet. <a th:href="@{/admin/blog_posts/new}" class="text-blue-500 hover:underline">Create one</a>.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

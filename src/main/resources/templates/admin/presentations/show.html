@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/admin :: layout(~{::content}, ${presentation.title})}">
+<body>
+    <div th:fragment="content" class="max-w-5xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold" th:text="${presentation.title}"></h1>
+            <div class="flex gap-2">
+                <a th:href="@{'/admin/presentations/' + ${presentation.id} + '/edit'}" 
+                   class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Edit</a>
+                <a th:href="@{/admin/presentations}" 
+                   class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">Back</a>
+            </div>
+        </div>
+        
+        <div class="bg-white border border-gray-200 rounded-lg p-6 space-y-4">
+            <div>
+                <strong>Abstract:</strong>
+                <p class="mt-2 text-gray-700" th:text="${presentation.abstractText}"></p>
+            </div>
+            
+            <div th:if="${presentation.slidesUrl != null && @viewHelper.safeUrl(presentation.slidesUrl) != null}">
+                <strong>Slides URL:</strong>
+                <a th:href="${@viewHelper.safeUrl(presentation.slidesUrl)}" 
+                   target="_blank" 
+                   rel="noopener" 
+                   class="text-blue-500 hover:underline"
+                   th:text="${presentation.slidesUrl}"></a>
+            </div>
+            
+            <div th:if="${presentation.githubUrl != null && @viewHelper.safeUrl(presentation.githubUrl) != null}">
+                <strong>GitHub URL:</strong>
+                <a th:href="${@viewHelper.safeUrl(presentation.githubUrl)}" 
+                   target="_blank" 
+                   rel="noopener" 
+                   class="text-blue-500 hover:underline"
+                   th:text="${presentation.githubUrl}"></a>
+            </div>
+            
+            <div th:if="${presentation.conferences != null && !presentation.conferences.isEmpty()}">
+                <strong>Conferences:</strong>
+                <ul class="list-disc list-inside mt-2">
+                    <li th:each="conference : ${presentation.conferences}">
+                        <span th:text="${conference.title + ' (' + conference.year + ')'}"></span>
+                        <span th:if="${conference.link != null && @viewHelper.safeUrl(conference.link) != null}">
+                            - <a th:href="${@viewHelper.safeUrl(conference.link)}" 
+                                 target="_blank" 
+                                 rel="noopener" 
+                                 class="text-blue-500 hover:underline">Conference Link</a>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div th:if="${presentation.conferences == null || presentation.conferences.isEmpty()}">
+                <strong>Conferences:</strong>
+                <p class="text-gray-500 mt-2">No conferences associated with this presentation.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

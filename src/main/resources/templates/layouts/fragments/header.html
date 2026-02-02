@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <header th:fragment="header" class="fixed top-0 left-0 right-0 bg-gray-200 border-b border-gray-300 z-50">
+        <div class="max-w-5xl mx-auto pt-4 pb-2 px-4 lg:px-0 lg:pb-4">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                <div class="mb-2 lg:mb-0 flex items-center md:mx-auto lg:mx-0">
+                    <a th:href="@{/}" class="mr-3 flex-shrink-0">
+                        <img th:src="@{/profile_photo.png}" alt="Profile Photo" class="w-16 h-16 rounded-lg object-cover border border-gray-400">
+                    </a>
+                    <div>
+                        <a th:href="@{/}" th:text="${bio != null && bio.name != null && !bio.name.isEmpty() ? bio.name : 'Name'}" 
+                           class="text-2xl md:text-3xl font-bold text-blue-500 hover:underline"></a>
+                        <p th:if="${bio != null && bio.briefBio != null && !bio.briefBio.isEmpty()}" 
+                           th:text="${bio.briefBio}" class="text-lg text-gray-600 mt-1"></p>
+                    </div>
+                </div>
+                <nav class="flex space-x-2 md:space-x-4 justify-center lg:justify-start">
+                    <a th:href="@{/}" class="text-blue-500 hover:underline text-lg font-semibold px-3 py-1 md:py-2 rounded md:whitespace-nowrap lg:whitespace-normal">Blog</a>
+                    <a th:href="@{/presentations}" class="text-blue-500 hover:underline text-lg font-semibold px-3 py-1 md:py-2 rounded md:whitespace-nowrap lg:whitespace-normal">Presentations</a>
+                    <a th:href="@{/about}" class="text-blue-500 hover:underline text-lg font-semibold px-3 py-1 md:py-2 rounded md:whitespace-nowrap lg:whitespace-normal">About Me</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+</body>
+</html>

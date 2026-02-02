@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/application :: layout(~{::content}, ${(bio != null && bio.name != null && !bio.name.isEmpty()) ? bio.name + '''\'s Blog''' : 'Blog'})}">
+<body>
+    <div th:fragment="content" class="max-w-5xl mx-auto">
+        <h1 class="text-2xl font-bold mb-3">Blog</h1>
+        
+        <div class="space-y-6">
+            <article th:each="post : ${blogPosts}" class="border-b border-gray-200 pb-6 last:border-b-0">
+                <h2 class="text-xl font-bold mb-1">
+                    <a th:href="@{'/blog/' + ${#strings.replace(post.filename, '.md', '')}}" 
+                       class="text-blue-500 hover:underline" 
+                       th:text="${post.title}"></a>
+                </h2>
+                <h3 class="text-base font-semibold text-gray-600 mb-3" 
+                    th:if="${post.publishedAt != null}"
+                    th:text="${#temporals.format(post.publishedAt, 'MMMM dd, yyyy')}"></h3>
+                <p th:if="${@viewHelper.blogPostExcerpt(post.filename, 50) != null && !@viewHelper.blogPostExcerpt(post.filename, 50).isEmpty()}" 
+                   th:text="${@viewHelper.blogPostExcerpt(post.filename, 50)}" 
+                   class="text-gray-700 mb-3"></p>
+                <a th:href="@{'/blog/' + ${#strings.replace(post.filename, '.md', '')}}" 
+                   class="text-blue-500 hover:underline">more</a>
+            </article>
+            
+            <p th:if="${blogPosts == null || blogPosts.isEmpty()}" class="text-gray-500">
+                No blog posts yet. Check back soon!
+            </p>
+        </div>
+    </div>
+</body>
+</html>

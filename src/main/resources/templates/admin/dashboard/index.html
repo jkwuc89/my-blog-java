@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/admin :: layout(~{::content}, 'Admin Dashboard')}">
+<body>
+    <div th:fragment="content" class="max-w-5xl mx-auto">
+        <h1 class="text-2xl font-bold mb-3">Admin Dashboard</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white border border-gray-200 rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-2">Blog Posts</h2>
+                <p class="text-2xl font-bold text-blue-600" th:text="${blogPostsCount}"></p>
+                <a th:href="@{/admin/blog_posts}" class="mt-4 inline-block text-blue-500 hover:underline">Manage Blog Posts</a>
+            </div>
+            
+            <div class="bg-white border border-gray-200 rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-2">Presentations</h2>
+                <p class="text-2xl font-bold text-blue-600" th:text="${presentationsCount}"></p>
+                <a th:href="@{/admin/presentations}" class="mt-4 inline-block text-blue-500 hover:underline">Manage Presentations</a>
+            </div>
+            
+            <div class="bg-white border border-gray-200 rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-2">Conferences</h2>
+                <p class="text-2xl font-bold text-blue-600" th:text="${conferencesCount}"></p>
+                <a th:href="@{/admin/conferences}" class="mt-4 inline-block text-blue-500 hover:underline">Manage Conferences</a>
+            </div>
+        </div>
+        
+        <div class="space-y-4">
+            <a th:href="@{/admin/bio}" class="block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Edit Bio</a>
+            <a th:href="@{/admin/contact_info}" class="block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Edit Contact Info</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/admin :: layout(~{::content}, 'Presentations')}">
+<body>
+    <div th:fragment="content" class="max-w-5xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold">Presentations</h1>
+            <a th:href="@{/admin/presentations/new}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">New Presentation</a>
+        </div>
+        
+        <div class="space-y-4">
+            <div th:each="presentation : ${presentations}" class="bg-white border border-gray-200 rounded-lg p-6">
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold mb-2" th:text="${presentation.title}"></h3>
+                        <p class="text-gray-600 mb-2" 
+                           th:text="${presentation.abstractText != null && presentation.abstractText.length() > 150 ? presentation.abstractText.substring(0, 150) + '...' : presentation.abstractText}"></p>
+                        <p class="text-sm text-gray-500" th:if="${presentation.conferences != null && !presentation.conferences.isEmpty()}">
+                            Conferences: <span th:each="conf, iterStat : ${presentation.conferences}" 
+                                               th:text="${conf.title + ' (' + conf.year + ')'}">
+                                <span th:if="${!iterStat.last}">, </span>
+                            </span>
+                        </p>
+                        <p class="text-sm text-gray-500" th:if="${presentation.conferences == null || presentation.conferences.isEmpty()}">No conferences associated</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <a th:href="@{'/admin/presentations/' + ${presentation.id}}" 
+                           class="px-3 py-1 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">View</a>
+                        <a th:href="@{'/admin/presentations/' + ${presentation.id} + '/edit'}" 
+                           class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">Edit</a>
+                        <form th:action="@{'/admin/presentations/' + ${presentation.id} + '/delete'}" method="post" style="display: inline;">
+                            <button type="submit" 
+                                    onclick="return confirm('Are you sure?')"
+                                    class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <p th:if="${presentations == null || presentations.isEmpty()}" class="text-gray-500">
+                No presentations yet. <a th:href="@{/admin/presentations/new}" class="text-blue-500 hover:underline">Create one</a>.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

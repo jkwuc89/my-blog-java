@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/application :: layout(~{::content}, ${(bio != null && bio.name != null && !bio.name.isEmpty()) ? bio.name + '''\'s Presentations''' : 'Presentations'})}">
+<body>
+    <div th:fragment="content" class="max-w-5xl mx-auto">
+        <h1 class="text-2xl font-bold mb-3">Presentations</h1>
+        
+        <p class="mb-6 text-gray-700">Below are links to my conference presentations. Please feel free to download and use any of the material below.</p>
+        
+        <div class="space-y-8">
+            <div th:each="presentation : ${presentations}" class="border-b border-gray-200 pb-8 last:border-b-0">
+                <h2 class="text-xl font-semibold mb-2" th:text="${presentation.title}"></h2>
+                
+                <p class="mb-2" th:if="${presentation.slidesUrl != null && !presentation.slidesUrl.isEmpty() || (presentation.githubUrl != null && @viewHelper.safeUrl(presentation.githubUrl) != null)}">
+                    <a th:if="${presentation.slidesUrl != null && !presentation.slidesUrl.isEmpty()}"
+                       th:href="@{'/presentations/' + ${presentation.slidesUrl}}"
+                       target="_blank"
+                       rel="noopener"
+                       class="text-blue-500 hover:underline inline-flex items-center gap-1 pr-3">
+                        Download Slidedeck
+                        <img th:src="@{/download.svg}" alt="Download" class="w-4 h-4">
+                    </a>
+                    
+                    <a th:if="${presentation.githubUrl != null && @viewHelper.safeUrl(presentation.githubUrl) != null}"
+                       th:href="${@viewHelper.safeUrl(presentation.githubUrl)}"
+                       target="_blank"
+                       rel="noopener"
+                       class="text-blue-500 hover:underline inline-flex items-center gap-1">
+                        GitHub Repository
+                        <img th:src="@{/github.svg}" alt="GitHub" class="w-4 h-4">
+                    </a>
+                </p>
+                
+                <p class="text-gray-600 mb-2" th:if="${presentation.conferences != null && !presentation.conferences.isEmpty()}">
+                    <span class="font-semibold">Presented at:</span>
+                    <span th:each="conference, iterStat : ${presentation.conferences}">
+                        <a th:if="${conference.link != null && @viewHelper.safeUrl(conference.link) != null}"
+                           th:href="${@viewHelper.safeUrl(conference.link)}"
+                           target="_blank"
+                           rel="noopener"
+                           class="text-blue-500 hover:underline"
+                           th:text="${conference.title + ' (' + conference.year + ')'}"></a>
+                        <span th:if="${conference.link == null || @viewHelper.safeUrl(conference.link) == null}"
+                              th:text="${conference.title + ' (' + conference.year + ')'}"></span>
+                        <span th:if="${!iterStat.last}">, </span>
+                    </span>
+                </p>
+                
+                <p class="text-gray-700 mb-4" th:text="${presentation.abstractText}"></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

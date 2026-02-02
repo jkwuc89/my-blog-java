@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <form th:fragment="form" th:action="${blogPost.id != null ? '/admin/blog_posts/' + blogPost.id : '/admin/blog_posts'}" 
+          th:object="${blogPost}" method="post" class="space-y-6">
+        <div>
+            <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Title</label>
+            <input type="text" id="title" th:field="*{title}" 
+                   class="block w-full bg-white border border-gray-200 rounded-md px-4 py-3 focus:border-blue-500 transition-all">
+        </div>
+        
+        <div>
+            <label for="filename" class="block text-sm font-medium text-gray-700 mb-2">Blog Post File</label>
+            <select id="filename" th:field="*{filename}" 
+                    class="block w-full bg-white border border-gray-200 rounded-md px-4 py-3 focus:border-blue-500 transition-all">
+                <option value="">No file selected</option>
+                <option th:each="file : ${availableFiles}" 
+                        th:value="${file}" 
+                        th:text="${file}"
+                        th:selected="${blogPost.filename == file}"></option>
+            </select>
+            <p class="mt-2 text-sm text-gray-500">Select a markdown file from the static/blog_posts directory.</p>
+        </div>
+        
+        <div>
+            <label for="publishedAt" class="block text-sm font-medium text-gray-700 mb-2">Published Date</label>
+            <input type="date" id="publishedAt" th:field="*{publishedAt}" 
+                   class="block w-full bg-white border border-gray-200 rounded-md px-4 py-3 focus:border-blue-500 transition-all">
+        </div>
+        
+        <div class="flex gap-4">
+            <button type="submit" 
+                    th:text="${blogPost.id != null ? 'Update Blog Post' : 'Create Blog Post'}"
+                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"></button>
+            <a th:href="${blogPost.id != null ? '/admin/blog_posts/' + blogPost.id : '/admin/blog_posts'}" 
+               class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">Cancel</a>
+        </div>
+    </form>
+</body>
+</html>

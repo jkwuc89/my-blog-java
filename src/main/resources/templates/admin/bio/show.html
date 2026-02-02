@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/admin :: layout(~{::content}, 'Bio')}">
+<body>
+    <div th:fragment="content" class="max-w-5xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold">Bio</h1>
+            <a th:href="@{/admin/bio/edit}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Edit</a>
+        </div>
+        
+        <div class="bg-white border border-gray-200 rounded-lg p-6 space-y-4">
+            <div>
+                <h2 class="text-xl font-semibold">Name: <span class="font-normal" th:text="${bio.name}"></span></h2>
+            </div>
+            
+            <div>
+                <h2 class="text-xl font-semibold">Brief Bio: <span class="font-normal" th:text="${bio.briefBio}"></span></h2>
+            </div>
+            
+            <div>
+                <h2 class="text-xl font-semibold mb-4">Content</h2>
+                <div class="prose max-w-none mb-6 [&_a]:text-blue-500 [&_a]:hover:underline" 
+                     th:utext="${@viewHelper.renderMarkdown(bio.content)}" 
+                     th:if="${bio.content != null && !bio.content.isEmpty()}"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/application :: layout(~{::content}, ${(bio != null && bio.name != null && !bio.name.isEmpty()) ? bio.name + '''\'s Bio''' : 'About'})}">
+<body>
+    <div th:fragment="content" class="max-w-5xl mx-auto">
+        <h1 class="text-2xl font-bold mb-3">About Me</h1>
+        
+        <div th:class="${@viewHelper.markdownClasses() + ' mb-8'}" 
+             th:utext="${@viewHelper.renderMarkdown(bio.content)}" 
+             th:if="${bio != null && bio.content != null && !bio.content.isEmpty()}"></div>
+        
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-2">My Resume</h2>
+            <p class="mb-2">
+                <a th:href="@{/documents/Keith Wedinger Resume.pdf}"
+                   target="_blank"
+                   rel="noopener"
+                   class="text-blue-500 hover:underline inline-flex items-center gap-1">
+                    Download/View
+                    <img th:src="@{/download.svg}" alt="Download" class="w-4 h-4">
+                </a>
+            </p>
+        </div>
+        
+        <div>
+            <h2 class="text-xl font-semibold mb-2">Contact Me</h2>
+            <ul class="list-disc list-inside space-y-2">
+                <li th:if="${contactInfo != null && contactInfo.email != null && !contactInfo.email.isEmpty()}">
+                    <a th:href="'mailto:' + ${contactInfo.email}" 
+                       class="text-blue-500 hover:underline" 
+                       th:text="${contactInfo.email}"></a>
+                </li>
+                <li th:if="${contactInfo != null && contactInfo.twitterUrl != null && @viewHelper.safeUrl(contactInfo.twitterUrl) != null}">
+                    X: <a th:href="${@viewHelper.safeUrl(contactInfo.twitterUrl)}" 
+                          target="_blank" 
+                          rel="noopener" 
+                          class="text-blue-500 hover:underline">@jkwuc89</a>
+                </li>
+                <li th:if="${contactInfo != null && contactInfo.githubUrl != null && @viewHelper.safeUrl(contactInfo.githubUrl) != null}">
+                    <a th:href="${@viewHelper.safeUrl(contactInfo.githubUrl)}" 
+                       target="_blank" 
+                       rel="noopener" 
+                       class="text-blue-500 hover:underline">GitHub</a>
+                </li>
+                <li th:if="${contactInfo != null && contactInfo.linkedinUrl != null && @viewHelper.safeUrl(contactInfo.linkedinUrl) != null}">
+                    <a th:href="${@viewHelper.safeUrl(contactInfo.linkedinUrl)}" 
+                       target="_blank" 
+                       rel="noopener" 
+                       class="text-blue-500 hover:underline">LinkedIn</a>
+                </li>
+                <li th:if="${contactInfo != null && contactInfo.untappedUrl != null && @viewHelper.safeUrl(contactInfo.untappedUrl) != null}">
+                    <a th:href="${@viewHelper.safeUrl(contactInfo.untappedUrl)}" 
+                       target="_blank" 
+                       rel="noopener" 
+                       class="text-blue-500 hover:underline">Untappd</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

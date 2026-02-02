@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/admin :: layout(~{::content}, 'Edit Conference')}">
+<body>
+    <div th:fragment="content" class="max-w-5xl mx-auto">
+        <h1 class="text-2xl font-bold mb-3">Edit Conference</h1>
+        
+        <div th:replace="~{admin/conferences/_form :: form}"></div>
+    </div>
+</body>
+</html>

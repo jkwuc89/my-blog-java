@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout (content, pageTitle)">
+<head>
+    <title th:text="${pageTitle != null ? pageTitle : 'My Blog'}">My Blog</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="My Blog">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <link rel="icon" th:href="@{/icon_180x180.png}" type="image/png">
+    <link rel="apple-touch-icon" th:href="@{/icon_180x180.png}" type="image/png">
+    
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+</head>
+
+<body class="flex flex-col min-h-screen">
+    <div th:replace="~{layouts/fragments/header :: header}"></div>
+    <main class="flex-1 container mx-auto px-5 py-8 mt-38 md:mt-34 lg:mt-24 mb-24">
+        <div th:replace="${content}"></div>
+    </main>
+    <div th:replace="~{layouts/fragments/footer :: footer}"></div>
+</body>
+</html>

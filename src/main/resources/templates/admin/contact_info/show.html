@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/admin :: layout(~{::content}, 'Contact Info')}">
+<body>
+    <div th:fragment="content" class="max-w-5xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold">Contact Info</h1>
+            <a th:href="@{/admin/contact_info/edit}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Edit</a>
+        </div>
+        
+        <div class="bg-white border border-gray-200 rounded-lg p-6 space-y-4">
+            <div>
+                <strong>Email:</strong> <span th:text="${contactInfo.email}"></span>
+            </div>
+            <div>
+                <strong>GitHub:</strong> 
+                <a th:if="${contactInfo.githubUrl != null && @viewHelper.safeUrl(contactInfo.githubUrl) != null}"
+                   th:href="${@viewHelper.safeUrl(contactInfo.githubUrl)}"
+                   target="_blank"
+                   rel="noopener"
+                   class="text-blue-500 hover:underline"
+                   th:text="${contactInfo.githubUrl}"></a>
+                <span th:if="${contactInfo.githubUrl == null || @viewHelper.safeUrl(contactInfo.githubUrl) == null}">Not set</span>
+            </div>
+            <div>
+                <strong>LinkedIn:</strong> 
+                <a th:if="${contactInfo.linkedinUrl != null && @viewHelper.safeUrl(contactInfo.linkedinUrl) != null}"
+                   th:href="${@viewHelper.safeUrl(contactInfo.linkedinUrl)}"
+                   target="_blank"
+                   rel="noopener"
+                   class="text-blue-500 hover:underline"
+                   th:text="${contactInfo.linkedinUrl}"></a>
+                <span th:if="${contactInfo.linkedinUrl == null || @viewHelper.safeUrl(contactInfo.linkedinUrl) == null}">Not set</span>
+            </div>
+            <div>
+                <strong>Twitter/X:</strong> 
+                <a th:if="${contactInfo.twitterUrl != null && @viewHelper.safeUrl(contactInfo.twitterUrl) != null}"
+                   th:href="${@viewHelper.safeUrl(contactInfo.twitterUrl)}"
+                   target="_blank"
+                   rel="noopener"
+                   class="text-blue-500 hover:underline"
+                   th:text="${contactInfo.twitterUrl}"></a>
+                <span th:if="${contactInfo.twitterUrl == null || @viewHelper.safeUrl(contactInfo.twitterUrl) == null}">Not set</span>
+            </div>
+            <div>
+                <strong>Untapped:</strong> 
+                <a th:if="${contactInfo.untappedUrl != null && @viewHelper.safeUrl(contactInfo.untappedUrl) != null}"
+                   th:href="${@viewHelper.safeUrl(contactInfo.untappedUrl)}"
+                   target="_blank"
+                   rel="noopener"
+                   class="text-blue-500 hover:underline"
+                   th:text="${contactInfo.untappedUrl}"></a>
+                <span th:if="${contactInfo.untappedUrl == null || @viewHelper.safeUrl(contactInfo.untappedUrl) == null}">Not set</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

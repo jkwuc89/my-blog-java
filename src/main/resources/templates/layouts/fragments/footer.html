@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <footer th:fragment="footer" class="fixed bottom-0 left-0 right-0 bg-gray-200 border-t border-gray-300 z-50">
+        <div class="container mx-auto px-5 py-4">
+            <div class="flex justify-center space-x-6">
+                <a th:if="${contactInfo != null && contactInfo.email != null && !contactInfo.email.isEmpty()}" 
+                   th:href="'mailto:' + ${contactInfo.email}" 
+                   class="hover:ring-2 hover:ring-blue-500 hover:ring-offset-2 rounded transition-all duration-200" 
+                   title="Email">
+                    <img th:src="@{/email.svg}" alt="Email" class="w-6 h-6">
+                </a>
+                
+                <a th:if="${contactInfo != null && contactInfo.githubUrl != null && (contactInfo.githubUrl.startsWith('http://') || contactInfo.githubUrl.startsWith('https://'))}" 
+                   th:href="${contactInfo.githubUrl}" 
+                   target="_blank" 
+                   rel="noopener" 
+                   class="hover:ring-2 hover:ring-blue-500 hover:ring-offset-2 rounded transition-all duration-200" 
+                   title="GitHub">
+                    <img th:src="@{/github.svg}" alt="GitHub" class="w-6 h-6">
+                </a>
+                
+                <a th:if="${contactInfo != null && contactInfo.linkedinUrl != null && (contactInfo.linkedinUrl.startsWith('http://') || contactInfo.linkedinUrl.startsWith('https://'))}" 
+                   th:href="${contactInfo.linkedinUrl}" 
+                   target="_blank" 
+                   rel="noopener" 
+                   class="hover:ring-2 hover:ring-blue-500 hover:ring-offset-2 rounded transition-all duration-200" 
+                   title="LinkedIn">
+                    <img th:src="@{/linkedin.svg}" alt="LinkedIn" class="w-6 h-6">
+                </a>
+                
+                <a th:if="${contactInfo != null && contactInfo.twitterUrl != null && (contactInfo.twitterUrl.startsWith('http://') || contactInfo.twitterUrl.startsWith('https://'))}" 
+                   th:href="${contactInfo.twitterUrl}" 
+                   target="_blank" 
+                   rel="noopener" 
+                   class="hover:ring-2 hover:ring-blue-500 hover:ring-offset-2 rounded transition-all duration-200" 
+                   title="Twitter/X">
+                    <img th:src="@{/twitter.svg}" alt="Twitter/X" class="w-6 h-6">
+                </a>
+                
+                <a th:if="${contactInfo != null && contactInfo.untappedUrl != null && (contactInfo.untappedUrl.startsWith('http://') || contactInfo.untappedUrl.startsWith('https://'))}" 
+                   th:href="${contactInfo.untappedUrl}" 
+                   target="_blank" 
+                   rel="noopener" 
+                   class="hover:ring-2 hover:ring-blue-500 hover:ring-offset-2 rounded transition-all duration-200" 
+                   title="Untappd">
+                    <img th:src="@{/Untappd.svg}" alt="Untappd" class="w-6 h-6">
+                </a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

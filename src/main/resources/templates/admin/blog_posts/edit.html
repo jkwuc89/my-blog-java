@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/admin :: layout(~{::content}, 'Edit Blog Post')}">
+<body>
+    <div th:fragment="content" class="max-w-5xl mx-auto">
+        <h1 class="text-2xl font-bold mb-3">Edit Blog Post</h1>
+        
+        <div th:replace="~{admin/blog_posts/_form :: form}"></div>
+        
+        <a th:href="@{'/admin/blog_posts/' + ${blogPost.id}}" class="mt-4 inline-block text-blue-500 hover:underline">Back</a>
+    </div>
+</body>
+</html>

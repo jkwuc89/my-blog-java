@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/admin :: layout(~{::content}, 'Edit Bio')}">
+<body>
+    <div th:fragment="content" class="max-w-5xl mx-auto">
+        <h1 class="text-2xl font-bold mb-3">Edit Bio</h1>
+        
+        <form th:action="@{/admin/bio}" th:object="${bio}" method="post" class="space-y-6">
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                <input type="text" id="name" th:field="*{name}" 
+                       class="block w-full bg-white border border-gray-200 rounded-md px-4 py-3 focus:border-blue-500 transition-all">
+                <p class="mt-2 text-sm text-gray-500">Name displayed in the header.</p>
+            </div>
+            
+            <div>
+                <label for="briefBio" class="block text-sm font-medium text-gray-700 mb-2">Brief Bio</label>
+                <input type="text" id="briefBio" th:field="*{briefBio}" 
+                       class="block w-full bg-white border border-gray-200 rounded-md px-4 py-3 focus:border-blue-500 transition-all">
+                <p class="mt-2 text-sm text-gray-500">Brief tagline displayed under the name in the header.</p>
+            </div>
+            
+            <div>
+                <label for="content" class="block text-sm font-medium text-gray-700 mb-2">Bio Content (Markdown)</label>
+                <textarea id="content" th:field="*{content}" rows="15" 
+                          class="block w-full bg-white border border-gray-200 rounded-md px-4 py-3 focus:border-blue-500 transition-all"></textarea>
+                <p class="mt-2 text-sm text-gray-500">You can use Markdown formatting here.</p>
+            </div>
+            
+            <div class="flex gap-4">
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Update Bio</button>
+                <a th:href="@{/admin/bio}" class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">Cancel</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

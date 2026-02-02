@@ -1,0 +1,56 @@
+service: my-blog-java
+image: ghcr.io/jkwuc89/my_blog_java
+
+# Deploy to the same DigitalOcean droplet as Rails
+servers:
+  web:
+    hosts:
+      - 209.97.157.86
+    labels:
+      # Path-based routing: /java goes to Java app, / goes to Rails app
+      # Higher priority (10) ensures this rule is checked before Rails default rule
+      traefik.http.routers.my-blog-java.rule: (Host(`jkwuc89.com`) || Host(`www.jkwuc89.com`)) && PathPrefix(`/java`)
+      traefik.http.routers.my-blog-java.priority: 10
+      traefik.http.routers.my-blog-java.entrypoints: websecure
+      traefik.http.routers.my-blog-java.tls.certresolver: letsencrypt
+      # Middleware to strip /java prefix before forwarding to Spring Boot
+      traefik.http.middlewares.my-blog-java-stripprefix.stripprefix.prefixes: /java
+      traefik.http.routers.my-blog-java.middlewares: my-blog-java-stripprefix
+      # Forward to Spring Boot on port 8080
+      traefik.http.services.my-blog-java.loadbalancer.server.port: 8080
+
+proxy:
+  ssl: true
+  hosts:
+    - jkwuc89.com
+    - www.jkwuc89.com
+
+# Where you keep your container images (same registry as Rails)
+registry:
+  server: ghcr.io
+  username: jkwuc89
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+# Environment Variables
+env:
+  clear:
+    # Set Spring Boot context path to /java
+    SERVER_SERVLET_CONTEXT_PATH: /java
+    # Database path inside container
+    SPRING_DATASOURCE_URL: "jdbc:sqlite:/app/storage/java_production.sqlite3"
+
+# Aliases for common operations
+aliases:
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f
+  dbc: app exec --interactive --reuse "sqlite3 /app/storage/java_production.sqlite3"
+
+# CRITICAL: Persist SQLite Database (separate from Rails)
+# This maps a folder on the Droplet to the storage folder in the container.
+volumes:
+  - "/var/lib/my-blog-java-storage:/app/storage"
+
+# Configure the image builder.
+builder:
+  arch: amd64

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/admin :: layout(~{::content}, 'Edit Contact Info')}">
+<body>
+    <div th:fragment="content" class="max-w-5xl mx-auto">
+        <h1 class="text-2xl font-bold mb-3">Edit Contact Info</h1>
+        
+        <form th:action="@{/admin/contact_info}" th:object="${contactInfo}" method="post" class="space-y-6">
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <input type="email" id="email" th:field="*{email}" 
+                       class="block w-full bg-white border border-gray-200 rounded-md px-4 py-3 focus:border-blue-500 transition-all">
+            </div>
+            
+            <div>
+                <label for="githubUrl" class="block text-sm font-medium text-gray-700 mb-2">GitHub URL</label>
+                <input type="url" id="githubUrl" th:field="*{githubUrl}" 
+                       class="block w-full bg-white border border-gray-200 rounded-md px-4 py-3 focus:border-blue-500 transition-all">
+            </div>
+            
+            <div>
+                <label for="linkedinUrl" class="block text-sm font-medium text-gray-700 mb-2">LinkedIn URL</label>
+                <input type="url" id="linkedinUrl" th:field="*{linkedinUrl}" 
+                       class="block w-full bg-white border border-gray-200 rounded-md px-4 py-3 focus:border-blue-500 transition-all">
+            </div>
+            
+            <div>
+                <label for="twitterUrl" class="block text-sm font-medium text-gray-700 mb-2">Twitter/X URL</label>
+                <input type="url" id="twitterUrl" th:field="*{twitterUrl}" 
+                       class="block w-full bg-white border border-gray-200 rounded-md px-4 py-3 focus:border-blue-500 transition-all">
+            </div>
+            
+            <div>
+                <label for="untappedUrl" class="block text-sm font-medium text-gray-700 mb-2">Untapped URL</label>
+                <input type="url" id="untappedUrl" th:field="*{untappedUrl}" 
+                       class="block w-full bg-white border border-gray-200 rounded-md px-4 py-3 focus:border-blue-500 transition-all">
+            </div>
+            
+            <div class="flex gap-4">
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Update Contact Info</button>
+                <a th:href="@{/admin/contact_info}" class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">Cancel</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <form th:fragment="form" 
+          th:action="${presentation.id != null ? '/admin/presentations/' + presentation.id : '/admin/presentations'}" 
+          th:object="${presentation}" method="post" class="space-y-6">
+        <div>
+            <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Title</label>
+            <input type="text" id="title" th:field="*{title}" 
+                   class="block w-full bg-white border border-gray-200 rounded-md px-4 py-3 focus:border-blue-500 transition-all">
+        </div>
+        
+        <div>
+            <label for="abstractText" class="block text-sm font-medium text-gray-700 mb-2">Abstract</label>
+            <textarea id="abstractText" th:field="*{abstractText}" rows="8" 
+                      class="block w-full bg-white border border-gray-200 rounded-md px-4 py-3 focus:border-blue-500 transition-all"></textarea>
+        </div>
+        
+        <div>
+            <label for="slidesUrl" class="block text-sm font-medium text-gray-700 mb-2">Slides</label>
+            <select id="slidesUrl" th:field="*{slidesUrl}" 
+                    class="block w-full bg-white border border-gray-200 rounded-md px-4 py-3 focus:border-blue-500 transition-all">
+                <option value="">No slides</option>
+                <option th:each="file : ${availableFiles}" 
+                        th:value="${file}" 
+                        th:text="${file}"
+                        th:selected="${presentation.slidesUrl == file}"></option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="githubUrl" class="block text-sm font-medium text-gray-700 mb-2">GitHub URL</label>
+            <input type="url" id="githubUrl" th:field="*{githubUrl}" 
+                   class="block w-full bg-white border border-gray-200 rounded-md px-4 py-3 focus:border-blue-500 transition-all">
+        </div>
+        
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Conferences</label>
+            <div th:if="${conferences != null && !conferences.isEmpty()}" 
+                 class="space-y-2 max-h-60 overflow-y-auto border border-gray-200 rounded-md p-4">
+                <div th:each="conference : ${conferences}" class="flex items-center">
+                    <input type="checkbox" 
+                           th:id="'conference_' + ${conference.id}"
+                           th:name="conferenceIds"
+                           th:value="${conference.id}"
+                           th:checked="${presentation.conferences != null && presentation.conferences.contains(conference)}"
+                           class="mr-2">
+                    <label th:for="'conference_' + ${conference.id}" 
+                           th:text="${conference.title + ' (' + conference.year + ')'}"
+                           class="text-sm text-gray-700"></label>
+                </div>
+            </div>
+            <p th:if="${conferences != null && !conferences.isEmpty()}" class="mt-2 text-sm text-gray-500">
+                Select one or more conferences where this presentation was given.
+            </p>
+            <p th:if="${conferences == null || conferences.isEmpty()}" class="text-gray-500">
+                No conferences available. <a th:href="@{/admin/conferences/new}" class="text-blue-500 hover:underline">Create a conference</a> first.
+            </p>
+        </div>
+        
+        <div class="flex gap-4">
+            <button type="submit" 
+                    th:text="${presentation.id != null ? 'Update Presentation' : 'Create Presentation'}"
+                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"></button>
+            <a th:href="${presentation.id != null ? '/admin/presentations/' + presentation.id : '/admin/presentations'}" 
+               class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">Cancel</a>
+        </div>
+    </form>
+</body>
+</html>

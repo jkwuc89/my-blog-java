@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/admin :: layout(~{::content}, ${conference.title + ' (' + conference.year + ')'})}">
+<body>
+    <div th:fragment="content" class="max-w-5xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold" th:text="${conference.title + ' (' + conference.year + ')'}"></h1>
+            <div class="flex gap-2">
+                <a th:href="@{'/admin/conferences/' + ${conference.id} + '/edit'}" 
+                   class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Edit</a>
+                <form th:action="@{'/admin/conferences/' + ${conference.id} + '/delete'}" method="post" style="display: inline;">
+                    <button type="submit" 
+                            onclick="return confirm('Are you sure?')"
+                            class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Delete</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="bg-white border border-gray-200 rounded-lg p-6 space-y-4">
+            <div>
+                <h2 class="text-lg font-semibold mb-2">Year</h2>
+                <p class="text-gray-700" th:text="${conference.year}"></p>
+            </div>
+            
+            <div th:if="${conference.link != null && !conference.link.isEmpty()}">
+                <h2 class="text-lg font-semibold mb-2">Link</h2>
+                <p>
+                    <a th:href="${@viewHelper.safeUrl(conference.link)}" 
+                       target="_blank" 
+                       rel="noopener" 
+                       class="text-blue-500 hover:underline"
+                       th:text="${conference.link}"></a>
+                </p>
+            </div>
+            
+            <div>
+                <h2 class="text-lg font-semibold mb-2">Presentations</h2>
+                <ul th:if="${conference.presentations != null && !conference.presentations.isEmpty()}" 
+                    class="list-disc list-inside space-y-2">
+                    <li th:each="presentation : ${conference.presentations}">
+                        <a th:href="@{'/admin/presentations/' + ${presentation.id}}" 
+                           class="text-blue-500 hover:underline"
+                           th:text="${presentation.title}"></a>
+                    </li>
+                </ul>
+                <p th:if="${conference.presentations == null || conference.presentations.isEmpty()}" 
+                   class="text-gray-500">No presentations associated with this conference.</p>
+            </div>
+        </div>
+        
+        <div class="mt-6">
+            <a th:href="@{/admin/conferences}" 
+               class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">Back to Conferences</a>
+        </div>
+    </div>
+</body>
+</html>
