@@ -1,11 +1,17 @@
 service: my-blog-java
 image: ghcr.io/jkwuc89/my_blog_java
 
+# How long to wait for container to become ready (default 30s)
+# Spring Boot needs extra time for Hibernate/Flyway initialization
+# 90s gives 40s start-period + 50s for healthchecks to pass
+deploy_timeout: 90
+
 # Deploy to the same DigitalOcean droplet as Rails
 servers:
   web:
     hosts:
       - 209.97.157.86
+    proxy: false
     labels:
       # Path-based routing: /java goes to Java app, / goes to Rails app
       # Higher priority (10) ensures this rule is checked before Rails default rule
@@ -13,17 +19,11 @@ servers:
       traefik.http.routers.my-blog-java.priority: 10
       traefik.http.routers.my-blog-java.entrypoints: websecure
       traefik.http.routers.my-blog-java.tls.certresolver: letsencrypt
-      # Middleware to strip /java prefix before forwarding to Spring Boot
-      traefik.http.middlewares.my-blog-java-stripprefix.stripprefix.prefixes: /java
-      traefik.http.routers.my-blog-java.middlewares: my-blog-java-stripprefix
-      # Forward to Spring Boot on port 8080
+      # Forward to Spring Boot on port 8080 (Spring Boot handles /java context path)
       traefik.http.services.my-blog-java.loadbalancer.server.port: 8080
 
-proxy:
-  ssl: true
-  hosts:
-    - jkwuc89.com
-    - www.jkwuc89.com
+# Proxy disabled for Java app - using Traefik directly for path-based routing
+# Rails app uses kamal-proxy for host-based routing, Java uses Traefik labels
 
 # Where you keep your container images (same registry as Rails)
 registry:
