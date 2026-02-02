@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/application :: layout(~{::content}, ${(bio != null && bio.name != null && !bio.name.isEmpty()) ? bio.name + '''\'s Presentations''' : 'Presentations'})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/application :: layout(~{::content}, ${(bio != null && bio.name != null && !bio.name.isEmpty()) ? bio.name + &quot;'s Presentations&quot; : 'Presentations'})}">
 <body>
     <div th:fragment="content" class="max-w-5xl mx-auto">
         <h1 class="text-2xl font-bold mb-3">Presentations</h1>

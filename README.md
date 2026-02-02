@@ -69,15 +69,29 @@ This project is a Java/Spring Boot implementation of a personal blog site, provi
    ```
 
 2. Create a user (password will be BCrypt hashed):
-   ```sql
-   INSERT INTO users (email_address, password_digest, created_at, updated_at)
-   VALUES ('your-email@example.com', '$2a$10$...', datetime('now'), datetime('now'));
+   
+   **Using Gradle task (recommended):**
+   ```bash
+   ./gradlew hashPassword -Ppassword=your-password
+   ```
+   This will output the hash and a ready-to-use SQL INSERT statement.
+   
+   **Using jshell:**
+   ```bash
+   ./gradlew compileJava
+   jshell --class-path "$(./gradlew -q dependencies --configuration runtimeClasspath | grep spring-security-crypto | head -1 | awk '{print $NF}')"
+   ```
+   Then in jshell:
+   ```java
+   import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+   BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+   System.out.println(encoder.encode("your-password"));
    ```
    
-   Or use Spring Boot's BCryptPasswordEncoder to generate a hash:
-   ```java
-   BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-   String hash = encoder.encode("your-password");
+   Then insert the user into the database:
+   ```sql
+   INSERT INTO users (email_address, password_digest, created_at, updated_at)
+   VALUES ('your-email@example.com', '<hash-from-above>', datetime('now'), datetime('now'));
    ```
 
 3. You can now log in at http://localhost:8080/session/new

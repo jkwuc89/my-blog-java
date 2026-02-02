@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-    <header th:fragment="admin_header" class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+    <header th:fragment="admin_header" class="fixed top-0 left-0 right-0 bg-white z-50">
         <div class="max-w-5xl mx-auto py-4">
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
                 </div>
-                <div>
+                <div class="flex items-center gap-2">
                     <a th:href="@{/admin}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Dashboard</a>
-                    <form th:action="@{/session/delete}" method="post" style="display: inline;">
-                        <button type="submit" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 ml-2">Logout</button>
+                    <form th:action="@{/logout}" method="post" style="display: inline;">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <button type="submit" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">Logout</button>
                     </form>
                 </div>
             </div>

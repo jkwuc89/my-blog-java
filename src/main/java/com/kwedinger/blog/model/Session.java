@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "INTEGER")
     private Long id;
     
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,10 +28,10 @@ public class Session {
     @Column(name = "ip_address")
     private String ipAddress;
     
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, columnDefinition = "TEXT")
     private LocalDateTime createdAt;
     
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at", nullable = false, columnDefinition = "TEXT")
     private LocalDateTime updatedAt;
     
     @PrePersist

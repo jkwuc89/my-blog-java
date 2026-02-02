@@ -1,0 +1,12 @@
+{
+  "name": "my-blog-java",
+  "version": "1.0.0",
+  "description": "Tailwind CSS build configuration",
+  "scripts": {
+    "build-css": "tailwindcss -i ./src/main/resources/static/css/application.css -o ./src/main/resources/static/css/application.css --minify",
+    "watch-css": "tailwindcss -i ./src/main/resources/static/css/application.css -o ./src/main/resources/static/css/application.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}

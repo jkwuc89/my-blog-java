@@ -32,7 +32,7 @@ dependencies {
 	implementation 'org.hibernate.orm:hibernate-community-dialects'
 	
 	// Flyway for database migrations
-	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.springframework.boot:spring-boot-starter-flyway'
 	
 	// Markdown processing
 	implementation 'org.commonmark:commonmark:0.21.0'
@@ -54,4 +54,18 @@ tasks.named('test') {
 	useJUnitPlatform()
 	// Enable native access for SQLite JDBC driver (required for Java 25)
 	jvmArgs '--enable-native-access=ALL-UNNAMED'
+}
+
+// Task to generate BCrypt password hash
+task hashPassword(type: JavaExec) {
+	group = 'utility'
+	description = 'Generate a BCrypt hash for a password. Usage: ./gradlew hashPassword -Ppassword=your-password'
+	classpath = sourceSets.main.runtimeClasspath
+	mainClass = 'com.kwedinger.blog.util.PasswordHashGenerator'
+	if (project.hasProperty('password')) {
+		args project.property('password')
+	} else {
+		println "Error: Password not provided. Usage: ./gradlew hashPassword -Ppassword=your-password"
+		args ''
+	}
 }

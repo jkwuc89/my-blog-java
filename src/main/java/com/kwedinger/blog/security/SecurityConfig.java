@@ -11,6 +11,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import com.kwedinger.blog.config.RequestLoggingFilter;
 
 import java.util.List;
 
@@ -35,16 +37,24 @@ public class SecurityConfig {
     }
     
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, RequestLoggingFilter requestLoggingFilter) throws Exception {
         http
+            .addFilterBefore(requestLoggingFilter, UsernamePasswordAuthenticationFilter.class)
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .maximumSessions(1)
             )
             .authorizeHttpRequests(auth -> auth
+                // Static resources (images, CSS, JS, documents, etc.) - must come before other rules
+                .requestMatchers("/profile_photo.png", "/icon_180x180.png", "/**/*.png", "/**/*.jpg", 
+                                "/**/*.jpeg", "/**/*.gif", "/**/*.svg", "/**/*.ico", "/**/*.css", 
+                                "/**/*.js", "/**/*.pdf", "/**/*.pptx", "/**/*.md",
+                                "/css/**", "/documents/**", "/blog_posts/**", "/presentations/**",
+                                "/email.svg", "/github.svg", "/linkedin.svg", "/twitter.svg", "/Untappd.svg",
+                                "/download.svg", "/robots.txt").permitAll()
                 // Public routes
                 .requestMatchers("/", "/blog", "/blog/**", "/presentations", "/about", 
-                                "/session/new", "/session", "/up").permitAll()
+                                "/session/new", "/session", "/logout", "/up").permitAll()
                 // Admin routes require authentication
                 .requestMatchers("/admin/**").authenticated()
                 // All other routes require authentication
@@ -58,15 +68,14 @@ public class SecurityConfig {
                 .permitAll()
             )
             .logout(logout -> logout
-                .logoutUrl("/session")
+                .logoutUrl("/logout")
                 .logoutSuccessUrl("/session/new")
                 .invalidateHttpSession(true)
                 .deleteCookies("session_id")
                 .permitAll()
-            )
-            .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/session") // Allow POST to /session for login
             );
+            // CSRF is enabled by default for Spring Security form login
+            // The CSRF token is automatically included in Thymeleaf forms via th:action
         
         return http.build();
     }

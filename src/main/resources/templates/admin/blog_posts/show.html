@@ -24,9 +24,9 @@
                 <span th:if="${blogPost.publishedAt == null}">Not published</span>
             </div>
             
-            <div th:if="${content != null}">
+            <div th:if="${blogContent != null}">
                 <strong>Content:</strong>
-                <div class="prose max-w-none mt-2" th:utext="${@viewHelper.renderMarkdown(content)}"></div>
+                <div class="prose max-w-none mt-2" th:utext="${@viewHelper.renderMarkdown(blogContent)}"></div>
             </div>
         </div>
     </div>

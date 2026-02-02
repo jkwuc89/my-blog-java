@@ -10,12 +10,14 @@
     <link rel="icon" th:href="@{/icon_180x180.png}" type="image/png">
     <link rel="apple-touch-icon" th:href="@{/icon_180x180.png}" type="image/png">
     
-    <link rel="stylesheet" th:href="@{/css/application.css}">
+    <!-- Tailwind CSS CDN (temporary - replace with compiled CSS for production) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link rel="stylesheet" th:href="@{/css/application.css}"> -->
 </head>
 
 <body class="flex flex-col min-h-screen">
     <div th:replace="~{layouts/fragments/admin_header :: admin_header}"></div>
-    <main class="flex-1 container mx-auto px-5" th:classappend="${pageTitle == 'Admin Dashboard'} ? '' : 'mt-24'">
+    <main class="flex-1 container mx-auto px-5 pt-24">
         <div th:replace="${content}"></div>
     </main>
 </body>

@@ -39,11 +39,11 @@ public class AdminBlogPostsController extends AdminBaseController {
     public String show(@PathVariable Long id, Model model) {
         BlogPost blogPost = blogPostRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        String content = fileService.getAvailableBlogPostFiles().contains(blogPost.getFilename()) 
+        String blogContent = fileService.getAvailableBlogPostFiles().contains(blogPost.getFilename()) 
             ? blogPostFileReader.readContent(blogPost.getFilename()) 
             : null;
         model.addAttribute("blogPost", blogPost);
-        model.addAttribute("content", content);
+        model.addAttribute("blogContent", blogContent);
         return "admin/blog_posts/show";
     }
     

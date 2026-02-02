@@ -40,13 +40,13 @@ public class BlogPostsController {
         BlogPost blogPost = blogPostRepository.findByFilename(filename)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Blog post not found"));
         
-        String content = blogPostFileReader.readContent(blogPost.getFilename());
-        if (content == null) {
+        String blogContent = blogPostFileReader.readContent(blogPost.getFilename());
+        if (blogContent == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Blog post not found");
         }
         
         model.addAttribute("blogPost", blogPost);
-        model.addAttribute("content", content);
+        model.addAttribute("blogContent", blogContent);
         return "blog_posts/show";
     }
 }

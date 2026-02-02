@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 public class ContactInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "INTEGER")
     private Long id;
     
     private String email;
@@ -31,10 +32,10 @@ public class ContactInfo {
     @Column(name = "untapped_url")
     private String untappedUrl;
     
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, columnDefinition = "TEXT")
     private LocalDateTime createdAt;
     
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at", nullable = false, columnDefinition = "TEXT")
     private LocalDateTime updatedAt;
     
     @PrePersist

@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 public class BlogPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "INTEGER")
     private Long id;
     
     private String title;
@@ -23,13 +24,13 @@ public class BlogPost {
     @Column(nullable = false, unique = true)
     private String filename;
     
-    @Column(name = "published_at")
+    @Column(name = "published_at", columnDefinition = "TEXT")
     private LocalDate publishedAt;
     
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, columnDefinition = "TEXT")
     private LocalDateTime createdAt;
     
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at", nullable = false, columnDefinition = "TEXT")
     private LocalDateTime updatedAt;
     
     @PrePersist

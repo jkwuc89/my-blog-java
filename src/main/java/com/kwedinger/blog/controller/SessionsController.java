@@ -23,12 +23,8 @@ public class SessionsController {
         return "sessions/new";
     }
     
-    @PostMapping("/session")
-    public String createSession() {
-        // Spring Security handles authentication via formLogin
-        // This method won't be called if authentication fails
-        return "redirect:/admin";
-    }
+    // Note: Spring Security handles POST to /session for login via formLogin configuration
+    // This controller method is not needed and won't be called
     
     @PostMapping("/session/delete")
     public String destroySession(HttpServletRequest request, HttpServletResponse response) {

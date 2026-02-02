@@ -29,14 +29,27 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String emailAddress = authentication.getName().toLowerCase().strip();
         String password = authentication.getCredentials().toString();
         
+        System.out.println("Attempting authentication for: " + emailAddress);
+        
         User user = userRepository.findByEmailAddress(emailAddress)
-            .orElseThrow(() -> new BadCredentialsException("Invalid email address or password"));
+            .orElseThrow(() -> {
+                System.out.println("User not found: " + emailAddress);
+                return new BadCredentialsException("Invalid email address or password");
+            });
+        
+        System.out.println("User found: " + user.getEmailAddress());
+        System.out.println("Stored hash: " + user.getPasswordDigest());
         
         // Verify password against stored password_digest (BCrypt hash)
-        if (!passwordEncoder.matches(password, user.getPasswordDigest())) {
+        boolean matches = passwordEncoder.matches(password, user.getPasswordDigest());
+        System.out.println("Password matches: " + matches);
+        
+        if (!matches) {
+            System.out.println("Password verification failed for: " + emailAddress);
             throw new BadCredentialsException("Invalid email address or password");
         }
         
+        System.out.println("Authentication successful for: " + emailAddress);
         return new UsernamePasswordAuthenticationToken(
             user.getEmailAddress(),
             null,
